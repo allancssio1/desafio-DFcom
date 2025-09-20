@@ -95,7 +95,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={handleDelete}
-                disabled={deleteProduct.isLoading}
+                disabled={deleteProduct.isPending}
                 className="flex items-center space-x-2 text-red-600 hover:text-red-700"
               >
                 <Trash2 className="h-4 w-4" />

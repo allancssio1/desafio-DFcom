@@ -2,23 +2,22 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { productsService } from '@/services/products.service'
 import { useProductStore } from '@/stores/useProductStore'
 import { toast } from 'sonner'
-import type { UpdateProductDto } from '@/types/product'
+import type { Product, UpdateProductDto } from '@/types/product'
 
 export const useProducts = () => {
   const { setError, clearError } = useProductStore()
 
-  return useQuery({
+  return useQuery<Product[], Error>({
     queryKey: ['products'],
     queryFn: productsService.getProducts,
     throwOnError: (error: Error) => {
-      if (error) {
-        setError(error.message)
-        toast('Erro ao carregar produtos')
-        return true
-      } else {
+      if (!error) {
         clearError()
         return false
       }
+      setError(error.message)
+      toast('Erro ao carregar produtos')
+      return true
     },
   })
 }
@@ -26,14 +25,14 @@ export const useProducts = () => {
 export const useProduct = (id: string) => {
   const { setError, clearError } = useProductStore()
 
-  return useQuery({
+  return useQuery<Product, Error>({
     queryKey: ['products', id],
     queryFn: () => productsService.getProduct(id),
     enabled: !!id,
     throwOnError: (error: Error) => {
       if (error) {
         setError(error.message)
-        toast('Erro ao carregar produtos')
+        toast('Erro ao carregar o produto')
         return true
       } else {
         clearError()
@@ -50,13 +49,12 @@ export const useCreateProduct = () => {
   return useMutation({
     mutationFn: productsService.createProduct,
     onSuccess: (newProduct) => {
-      queryClient.invalidateQueries(['products'])
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       addProduct(newProduct)
       toast('Produto criado com sucesso!')
     },
-    throwOnError: (error: Error) => {
-      toast('Erro ao carregar produtos')
-      return true
+    onError: (error: Error) => {
+      toast(`Erro ao criar produto: ${error.message}`)
     },
   })
 }
@@ -69,14 +67,15 @@ export const useUpdateProduct = () => {
     mutationFn: ({ id, data }: { id: string; data: UpdateProductDto }) =>
       productsService.updateProduct(id, data),
     onSuccess: (updatedProduct) => {
-      queryClient.invalidateQueries(['products'])
-      queryClient.invalidateQueries(['products', updatedProduct._id])
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+      queryClient.invalidateQueries({
+        queryKey: ['products', updatedProduct._id],
+      })
       updateProduct(updatedProduct._id, updatedProduct)
       toast('Produto atualizado com sucesso!')
     },
-    throwOnError: (error: Error) => {
-      toast('Erro ao carregar produtos')
-      return true
+    onError: (error: Error) => {
+      toast(`Erro ao atualizar produto: ${error.message}`)
     },
   })
 }
@@ -88,11 +87,11 @@ export const useDeleteProduct = () => {
   return useMutation({
     mutationFn: productsService.deleteProduct,
     onSuccess: (_, productId) => {
-      queryClient.invalidateQueries(['products'])
+      queryClient.invalidateQueries({ queryKey: ['products'] })
       removeProduct(productId)
       toast('Produto excluído com sucesso!')
     },
-    onError: (error: Error) => {
+    onError: (_error: Error) => {
       toast('Erro ao excluir produto')
     },
   })

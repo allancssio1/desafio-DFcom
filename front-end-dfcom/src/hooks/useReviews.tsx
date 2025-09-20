@@ -63,18 +63,19 @@ export const useCreateReview = () => {
   return useMutation({
     mutationFn: reviewsService.createReview,
     onSuccess: (newReview) => {
-      queryClient.invalidateQueries(['reviews'])
-      queryClient.invalidateQueries(['reviews', 'product', newReview.productId])
-      queryClient.invalidateQueries([
-        'reviews',
-        'product',
-        newReview.productId,
-        'stats',
-      ])
-      queryClient.invalidateQueries(['products', newReview.productId, 'stats'])
+      queryClient.invalidateQueries({ queryKey: ['reviews'] })
+      queryClient.invalidateQueries({
+        queryKey: ['reviews', 'product', newReview.productId],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['reviews', 'product', newReview.productId, 'stats'],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['products', newReview.productId, 'stats'],
+      })
       toast('Avaliação criada com sucesso!')
     },
-    onError: (error: Error) => {
+    onError: (_error: Error) => {
       toast('Erro ao criar avaliação')
     },
   })
@@ -87,21 +88,16 @@ export const useUpdateReview = () => {
     mutationFn: ({ id, data }: { id: string; data: UpdateReviewDto }) =>
       reviewsService.updateReview(id, data),
     onSuccess: (updatedReview) => {
-      queryClient.invalidateQueries(['reviews'])
-      queryClient.invalidateQueries([
-        'reviews',
-        'product',
-        updatedReview.productId,
-      ])
-      queryClient.invalidateQueries([
-        'reviews',
-        'product',
-        updatedReview.productId,
-        'stats',
-      ])
+      queryClient.invalidateQueries({ queryKey: ['reviews'] })
+      queryClient.invalidateQueries({
+        queryKey: ['reviews', 'product', updatedReview.productId],
+      })
+      queryClient.invalidateQueries({
+        queryKey: ['reviews', 'product', updatedReview.productId, 'stats'],
+      })
       toast('Avaliação atualizada com sucesso!')
     },
-    onError: (error: Error) => {
+    onError: (_error: Error) => {
       toast('Erro ao atualizar avaliação')
     },
   })
@@ -113,10 +109,10 @@ export const useDeleteReview = () => {
   return useMutation({
     mutationFn: reviewsService.deleteReview,
     onSuccess: () => {
-      queryClient.invalidateQueries(['reviews'])
+      queryClient.invalidateQueries({ queryKey: ['reviews'] })
       toast('Avaliação excluída com sucesso!')
     },
-    onError: (error: Error) => {
+    onError: (_error: Error) => {
       toast('Erro ao excluir avaliação')
     },
   })

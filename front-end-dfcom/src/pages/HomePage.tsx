@@ -16,6 +16,7 @@ import StarRating from '@/components/common/StarRating'
 import { useProducts } from '@/hooks/useProducts'
 import { useRecentReviews } from '@/hooks/useReviews'
 import { formatCurrency, formatDate } from '@/lib/utils'
+import type { Product } from '@/types/product'
 
 const HomePage = () => {
   const {
@@ -41,7 +42,8 @@ const HomePage = () => {
 
   const stats = {
     totalProducts: products.length,
-    totalCategories: [...new Set(products.map((p: any) => p.category))].length,
+    totalCategories: [...new Set(products.map((p: Product) => p.category))]
+      .length,
     averagePrice:
       products.length > 0
         ? products.reduce((sum, p) => sum + p.price, 0) / products.length

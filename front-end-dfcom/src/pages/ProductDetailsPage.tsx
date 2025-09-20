@@ -100,7 +100,7 @@ const ProductDetailsPage = () => {
           <Button
             variant="outline"
             onClick={handleDelete}
-            disabled={deleteProduct.isLoading}
+            disabled={deleteProduct.isPending}
             className="text-red-600 hover:text-red-700 border-red-200 hover:bg-red-50"
           >
             <Trash2 className="h-4 w-4 mr-2" />
@@ -248,7 +248,7 @@ const ProductDetailsPage = () => {
         {showReviewForm && (
           <ReviewForm
             onSubmit={handleCreateReview}
-            isLoading={createReview.isLoading}
+            isLoading={createReview.isPending}
           />
         )}
 

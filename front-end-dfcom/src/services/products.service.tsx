@@ -9,6 +9,7 @@ import type {
 export const productsService = {
   async getProducts(): Promise<Product[]> {
     const { data } = await api.get<Product[]>('/products')
+    console.log('🚀 ~ getProducts ~ data:', data)
     return data
   },
 

@@ -57,7 +57,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
           <ReviewForm
             review={review}
             onSubmit={handleUpdate}
-            isLoading={updateReview.isLoading}
+            isLoading={updateReview.isPending}
             submitLabel="Atualizar Avaliação"
           />
         </CardContent>
@@ -97,7 +97,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
                   variant="ghost"
                   size="sm"
                   onClick={handleDelete}
-                  disabled={deleteReview.isLoading}
+                  disabled={deleteReview.isPending}
                   className="text-slate-600 hover:text-red-600"
                 >
                   <Trash2 className="h-4 w-4" />

@@ -62,7 +62,7 @@ const EditProductPage = () => {
       <ProductForm
         product={product}
         onSubmit={handleSubmit}
-        isLoading={updateProduct.isLoading}
+        isLoading={updateProduct.isPending}
         submitLabel="Atualizar Produto"
       />
     </div>

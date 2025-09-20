@@ -37,7 +37,7 @@ const CreateProductPage = () => {
 
       <ProductForm
         onSubmit={handleSubmit}
-        isLoading={createProduct.isLoading}
+        isLoading={createProduct.isPending}
         submitLabel="Criar Produto"
       />
     </div>
