@@ -99,4 +99,4 @@ Este método irá construir e executar os contêineres para o back-end, front-en
     ```bash
     npm run start # ou o comando equivalente do seu projeto
     ```
-    A aplicação estará disponível em `http://localhost:<PORTA_CONFIGURADA>`.
+    A aplicação estará disponível em `http://localhost:3001`.
