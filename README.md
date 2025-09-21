@@ -48,7 +48,7 @@ Este método irá construir e executar os contêineres para o back-end, front-en
     docker-compose up --build
     ```
 
-    A aplicação estará acessível em `http://localhost:<PORTA_DO_FRONTEND>` e a API em `http://localhost:3000`. Verifique as portas no arquivo `docker-compose.yml` para confirmar.
+    A aplicação estará acessível em `http://localhost:3001` e a API em `http://localhost:3000`. Verifique as portas no arquivo `docker-compose.yml` para confirmar.
 
 ### 2. Executando os Serviços Individualmente
 
