@@ -17,6 +17,7 @@ import {
   useCreateReview,
 } from '@/hooks/useReviews'
 import { formatCurrency, formatDate } from '@/lib/utils'
+import type { ReviewFormData } from '@/lib/validation'
 
 const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -62,7 +63,7 @@ const ProductDetailsPage = () => {
     }
   }
 
-  const handleCreateReview = (data: any) => {
+  const handleCreateReview = (data: ReviewFormData) => {
     createReview.mutate(
       {
         ...data,
